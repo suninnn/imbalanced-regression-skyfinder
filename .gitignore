@@ -1,0 +1,37 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Large data / raw files
+data/
+images/
+raw_zips/
+*.zip
+
+# Model outputs
+checkpoints/
+runs/
+outputs/
+*.pt
+*.pth
+*.ckpt
+*.pkl
+
+# Reference papers
+Papers/
+
+# Do not upload report PDF
+**/SkyFinder_DIR_Results.pdf
+**/skyfinder_dir_results.pdf
+
+# Reference papers
+Papers/
+papers/
+
+# Do not upload report PDF
+**/SkyFinder_DIR_Results.pdf
+**/skyfinder_dir_results.pdf
