@@ -1,31 +1,44 @@
 # SkyFinder DIR Temperature Regression
 
-This project adapts **Distributionally Robust Regression (DIR)** to the SkyFinder temperature prediction task. The goal is to evaluate whether imbalance-aware regression methods can improve prediction performance on underrepresented temperature ranges.
+This project adapts **Distributionally Robust Regression (DIR)** to the SkyFinder temperature prediction task. It evaluates whether imbalance-aware regression methods improve performance on underrepresented temperature ranges.
 
-## Project Overview
+## Overview
 
-SkyFinder contains outdoor sky images collected from multiple static cameras under diverse weather, lighting, and seasonal conditions. In this project, I formulate temperature prediction as an imbalanced regression problem, where some temperature ranges have many training samples while others are underrepresented.
-
-The project evaluates the effectiveness of DIR components, including:
-
-- **Label Distribution Smoothing (LDS)**
-- **Feature Distribution Smoothing (FDS)**
-- Vanilla regression baseline
-- Imbalance-aware evaluation across many-shot, medium-shot, few-shot, and zero-shot temperature bins
-
-## Main Findings
-
-The vanilla baseline performs strongly on the overall dataset, especially in many-shot temperature regions. Applying LDS improves performance in sparse temperature regions, suggesting that smoothed label-density-based reweighting can help mitigate continuous label imbalance.
-
-However, FDS does not consistently improve over LDS-only models in this setting. This may be because SkyFinder temperature prediction depends heavily on camera location, season, time, and weather context, making the feature distribution less smoothly aligned across neighboring temperature bins.
+SkyFinder contains outdoor sky images collected from static cameras under different weather, lighting, and seasonal conditions. This project formulates temperature prediction as an imbalanced regression problem and compares a vanilla regression baseline with DIR-based methods using **Label Distribution Smoothing (LDS)** and **Feature Distribution Smoothing (FDS)**.
 
 ## Repository Structure
 
 ```text
 .
-├── SkyFinder_DIR_training.ipynb          # Main training and evaluation notebook
-├── skyfinder_dir_training.py             # Python script version of the training pipeline
-├── SkyFinderTemperatureRegression.ipynb  # Data preprocessing notebook
-├── SkyFinder_DIR_Results.pdf             # Final project report
+├── code/
+│   ├── 01_skyfinder_data_preprocessing.ipynb  # Data preprocessing
+│   ├── 02_dir_training_evaluation.ipynb       # DIR training and evaluation
+│   └── dir_training_pipeline.py               # Python training pipeline
+├── metadata.csv                               # SkyFinder metadata
 ├── README.md
 └── .gitignore
+```
+
+## Methods
+
+| Model | Description |
+|---|---|
+| B1 | Vanilla regression baseline |
+| D1 | DIR with LDS reweighting |
+| D1_inv | DIR with inverse LDS reweighting |
+| D2 | DIR with LDS and FDS |
+| D2_inv | DIR with inverse LDS and FDS |
+
+Evaluation uses **RMSE** and **MAE** across many-shot, medium-shot, few-shot, and zero-shot temperature bins.
+
+## Main Findings
+
+The vanilla baseline performs strongly overall, especially in many-shot regions. LDS improves performance in sparse temperature ranges, suggesting that label-density-based reweighting helps mitigate continuous label imbalance. FDS does not consistently improve over LDS-only models, likely because SkyFinder temperature prediction depends on camera location, season, time, and weather context.
+
+
+## How to Run
+
+1. Prepare the SkyFinder image folders and metadata.
+2. Run `code/01_skyfinder_data_preprocessing.ipynb`.
+3. Run `code/02_dir_training_evaluation.ipynb`.
+4. Use `code/dir_training_pipeline.py` as the script version of the training pipeline if needed.
